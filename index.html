@@ -6,46 +6,22 @@
 <title>Crochet Graduation Bouquet — Preorder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FAF6EE;
+    --cream: #FFF9F3;
     --card: #FFFFFF;
-    --ink: #2E2A24;
-    --ink-soft: #6B6355;
-    --sage: #7C8B6F;
-    --sage-deep: #5C6B4F;
-    --rose: #C97B84;
-    --mustard: #D6A64C;
-    --line: #E4DCC9;
-    --focus: #5C6B4F;
+    --ink: #4A362B;
+    --ink-soft: #A6907E;
+    --sage: #BFE0C3;
+    --sage-deep: #EE8C6E;
+    --rose: #F5AEBB;
+    --mustard: #F6C453;
+    --line: #F6E7D9;
+    --focus: #EE8C6E;
   }
-  :root:not([data-theme="light"]) {
-    @media (prefers-color-scheme: dark) {
-      --cream: #211F1A;
-      --card: #2A2721;
-      --ink: #F2ECE0;
-      --ink-soft: #B9AF9C;
-      --sage: #9AAB8B;
-      --sage-deep: #B7C6A8;
-      --rose: #DE97A0;
-      --mustard: #E6BC6E;
-      --line: #43402F;
-      --focus: #B7C6A8;
-    }
-  }
-  :root[data-theme="dark"] {
-    --cream: #211F1A;
-    --card: #2A2721;
-    --ink: #F2ECE0;
-    --ink-soft: #B9AF9C;
-    --sage: #9AAB8B;
-    --sage-deep: #B7C6A8;
-    --rose: #DE97A0;
-    --mustard: #E6BC6E;
-    --line: #43402F;
-    --focus: #B7C6A8;
-  }
+  /* Always bright and light, regardless of the visitor's device theme —
+     this page is meant to feel fresh and sunny, not dark-mode. */
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -82,9 +58,11 @@
     .hero { grid-template-columns: 1.1fr 0.9fr; padding-top: 64px; }
   }
   .eyebrow {
-    color: var(--rose);
-    font-size: 0.95rem;
-    margin-bottom: 10px;
+    color: var(--sage-deep);
+    font-family: "Caveat", cursive;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin-bottom: 4px;
   }
   .hero h1 {
     font-size: clamp(2rem, 5vw, 2.75rem);
@@ -131,7 +109,7 @@
   }
   .size-card {
     border: 1.5px solid var(--line);
-    border-radius: 14px;
+    border-radius: 18px;
     padding: 16px;
     cursor: pointer;
     background: var(--card);
@@ -257,6 +235,29 @@
   }
 
   .hidden { display: none !important; }
+
+  /* ---------- Feature band ---------- */
+  .feature-band {
+    background: color-mix(in srgb, var(--sage-deep) 14%, var(--cream));
+    border-radius: 22px;
+    padding: 28px 16px;
+    margin: 8px 0 0;
+    display: grid;
+    gap: 22px;
+  }
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+  .feature-item svg { width: 34px; height: 34px; }
+  .feature-item span {
+    color: var(--sage-deep);
+    font-weight: 600;
+    font-size: 1rem;
+  }
 </style>
 </head>
 <body>
@@ -307,6 +308,21 @@
         </g>
         <path d="M110 230 Q150 260 190 230 L175 300 Q150 285 125 300 Z" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
       </svg>
+    </div>
+  </div>
+
+  <div class="feature-band">
+    <div class="feature-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke="var(--sage-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 33s-13-7.6-13-17A7 7 0 0 1 20 12a7 7 0 0 1 13 4c0 9.4-13 17-13 17Z"/></svg>
+      <span>Handmade, one stitch at a time</span>
+    </div>
+    <div class="feature-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke="var(--sage-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6c4 4 9 10 9 16a9 9 0 0 1-18 0c0-6 5-12 9-16Z"/></svg>
+      <span>Freshness that never fades</span>
+    </div>
+    <div class="feature-item">
+      <svg viewBox="0 0 40 40" fill="none" stroke="var(--sage-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="14" width="18" height="12" rx="2"/><path d="M23 18h6l5 5v3h-11"/><circle cx="12" cy="29" r="2.6"/><circle cx="28" cy="29" r="2.6"/></svg>
+      <span>Ready in 1–2 weeks</span>
     </div>
   </div>
 
