@@ -534,11 +534,11 @@
   const manualEmailAddr = document.getElementById("manualEmailAddr");
   const manualOrderId = document.getElementById("manualOrderId");
 
-  // Orders are POSTed quietly to Formspree, which emails them to the
-  // shop owner — no email app popup for the customer. If the request
-  // fails (offline, blocked, etc.) we fall back to a mailto link so
-  // the order still isn't lost.
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mvkggvrl";
+  // Orders are POSTed quietly to your Google Apps Script web app, which
+  // logs a row to the spreadsheet AND emails you — no email app popup
+  // for the customer. If the request fails (offline, blocked, etc.) we
+  // fall back to a mailto link so the order still isn't lost.
+  const SCRIPT_ENDPOINT = "https://script.google.com/macros/s/AKfycby4WmQiYH5vfPnBP20ODPFK5HUFLjK2FLGYIeB1CxvFMSdRhEFJ5LJFpBGaTI23MC4/exec";
   const OWNER_EMAIL = "ziejen27@gmail.com";
 
   function buildMailtoLink(order, orderId) {
@@ -600,35 +600,40 @@
 
     const orderId = "ord_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 
-    // Formspree wants flat, human-readable fields — build a clean payload
-    // (it also emails a nicely formatted table from these key/value pairs).
+    // Field names here must match what the Apps Script doPost() expects.
     const payload = {
-      _subject: `New bouquet preorder — ${order.gradName}`,
-      "Order reference": orderId,
-      Size: `${state.size.name} ($${order.sizePrice})`,
-      Palette: state.palette.name,
-      Ribbon: order.ribbon ? `Yes — ${order.ribbonText || "(no text given)"}` : "No",
-      Total: `$${order.total} (+ shipping if applicable)`,
-      Graduate: order.gradSchool ? `${order.gradName} (${order.gradSchool})` : order.gradName,
-      "Needed by": order.neededBy,
-      Fulfillment: state.fulfill.name,
-      Address: order.address || "(n/a)",
-      "Buyer name": order.buyerName,
+      orderId: orderId,
+      size: `${state.size.name} ($${order.sizePrice})`,
+      palette: state.palette.name,
+      ribbon: order.ribbon ? `Yes — ${order.ribbonText || "(no text given)"}` : "No",
+      total: `$${order.total} (+ shipping if applicable)`,
+      graduate: order.gradSchool ? `${order.gradName} (${order.gradSchool})` : order.gradName,
+      neededBy: order.neededBy,
+      fulfillment: state.fulfill.name,
+      address: order.address || "(n/a)",
+      buyerName: order.buyerName,
       email: order.buyerEmail,
-      "Buyer phone": order.buyerPhone || "(n/a)",
-      Notes: order.notes || "(none)"
+      phone: order.buyerPhone || "(n/a)",
+      notes: order.notes || "(none)"
     };
 
     let sent = false;
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      // Apps Script web apps don't send CORS response headers, so a normal
+      // "cors" fetch gets blocked from reading the response even though the
+      // request actually goes through. "no-cors" lets the request fire
+      // successfully; we just can't read the response back, so we treat
+      // "no network error was thrown" as success (the standard workaround
+      // for Apps Script + fetch).
+      await fetch(SCRIPT_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       });
-      sent = res.ok;
+      sent = true;
     } catch (e) {
-      console.error("Formspree submission failed:", e);
+      console.error("Order submission failed:", e);
       sent = false;
     }
 
